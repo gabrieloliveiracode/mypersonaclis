@@ -1,24 +1,21 @@
+from typing import List
 from db import db
+from models.routine import RoutineModel
 
 
-class UserModel(db.Model):
-    __tablename__ = "users"
+class ClientModel(db.Model):
+    __tablename__ = "clients"
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(20), nullable=False, unique=False)
-    surname = db.Column(db.String(20), nullable=False, unique=False)
-    username = db.Column(db.String(20), nullable=False, unique=True)
-    password = db.Column(db.String(80), nullable=False)
+    name = db.Column(db.String(40), nullable=False, unique=False)
     email = db.Column(db.String(80), nullable=False, unique=True)
     age = db.Column(db.Integer, nullable=False)
     phone_number = db.Column(db.String(20), nullable=False, unique=False)
-    cref = db.Column(db.String(20), nullable=False, unique=False)
 
-    clients = db.relationship("ClientModel", lazy="dynamic")
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    user = db.relationship("UserModel")
 
-    @classmethod
-    def find_by_username(cls, username: str) -> "UserModel":
-        return cls.query.filter_by(username=username).first()
+    items = db.relationship("RoutineModel", lazy="dynamic")
 
     @classmethod
     def find_by_email(cls, email: str) -> "UserModel":
@@ -27,6 +24,10 @@ class UserModel(db.Model):
     @classmethod
     def find_by_id(cls, _id: int) -> "UserModel":
         return cls.query.filter_by(id=_id).first()
+
+    @classmethod
+    def find_all(cls) -> List["ClientModel"]:
+        return cls.query.all()
 
     def save_to_db(self) -> None:
         db.session.add(self)

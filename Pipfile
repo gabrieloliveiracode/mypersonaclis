@@ -12,10 +12,13 @@ Flask-JWT-Extended = "*"
 Flask-SQLAlchemy = "*"
 marshmallow = "==3.0.0rc8"
 flask-marshmallow = "*"
+flask-migrate = "*"
 marshmallow-sqlalchemy = "*"
 requests = "*"
 python-dotenv = "*"
 flask-uploads = "*"
+"psycopg2-binary" = "*"
+
 
 [requires]
 python_version = "3.7"

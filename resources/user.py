@@ -45,10 +45,7 @@ class UserRegister(Resource):
 
 
 class User(Resource):
-    """
-    This resource can be useful when testing our Flask app. We may not want to expose it to public users, but for the
-    sake of demonstration in this course, it can be useful when we are manipulating data regarding the users.
-    """
+
 
     @classmethod
     def get(cls, user_id: int):
@@ -72,20 +69,24 @@ class UserLogin(Resource):
     @classmethod
     def post(cls):
         user_json = request.get_json()
-        user_data = user_schema.load(user_json, partial=("email",))
+        user_data = user_schema.load(user_json, partial=(
+                                                    "email",
+                                                    "name",
+                                                    "surname",
+                                                    "age",
+                                                    "phone_number",
+                                                    "cref",
+        ))
 
         user = UserModel.find_by_username(user_data.username)
 
         if user and safe_str_cmp(user.password, user_data.password):
-            confirmation = user.most_recent_confirmation
-            if confirmation and confirmation.confirmed:
-                access_token = create_access_token(user.id, fresh=True)
-                refresh_token = create_refresh_token(user.id)
-                return (
-                    {"access_token": access_token, "refresh_token": refresh_token},
-                    200,
-                )
-            return {"message": gettext("user_not_confirmed").format(user.email)}, 400
+            access_token = create_access_token(user.id, fresh=True)
+            refresh_token = create_refresh_token(user.id)
+            return (
+                {"access_token": access_token, "refresh_token": refresh_token},
+                200,
+            )
 
         return {"message": gettext("user_invalid_credentials")}, 401
 

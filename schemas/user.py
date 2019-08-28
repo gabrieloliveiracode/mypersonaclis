@@ -1,5 +1,6 @@
 from ma import ma
 from models.user import UserModel
+from models.client import ClientModel
 
 
 class UserSchema(ma.ModelSchema):

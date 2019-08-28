@@ -4,15 +4,18 @@ from flask_jwt_extended import JWTManager
 from flask_uploads import configure_uploads, patch_request_class
 from marshmallow import ValidationError
 from dotenv import load_dotenv
+from flask_migrate import Migrate
 
 from db import db
 from ma import ma
 from blacklist import BLACKLIST
 from resources.user import UserRegister, UserLogin, User, TokenRefresh, UserLogout
-from resources.item import Item, ItemList
-from resources.store import Store, StoreList
-from resources.image import ImageUpload, Image, AvatarUpload, Avatar
+from resources.client import Client, ClientList
+#  from resources.item import Item, ItemList
+#  from resources.store import Store, StoreList
+#  from resources.image import ImageUpload, Image, AvatarUpload, Avatar
 from libs.image_helper import IMAGE_SET
+
 
 app = Flask(__name__)
 load_dotenv(".env", verbose=True)
@@ -34,6 +37,7 @@ def handle_marshmallow_validation(err):
 
 
 jwt = JWTManager(app)
+migrate = Migrate(app, db)
 
 
 # This method will check if a token is blacklisted, and will be called automatically when blacklist is enabled
@@ -42,19 +46,21 @@ def check_if_token_in_blacklist(decrypted_token):
     return decrypted_token["jti"] in BLACKLIST
 
 
-api.add_resource(Store, "/store/<string:name>")
-api.add_resource(StoreList, "/stores")
-api.add_resource(Item, "/item/<string:name>")
-api.add_resource(ItemList, "/items")
+#  api.add_resource(Store, "/store/<string:name>")
+#  api.add_resource(StoreList, "/stores")
+#  api.add_resource(Item, "/item/<string:name>")
+#  api.add_resource(ItemList, "/items")
 api.add_resource(UserRegister, "/register")
 api.add_resource(User, "/user/<int:user_id>")
 api.add_resource(UserLogin, "/login")
 api.add_resource(TokenRefresh, "/refresh")
 api.add_resource(UserLogout, "/logout")
-api.add_resource(ImageUpload, "/upload/image")
-api.add_resource(Image, "/image/<string:filename>")
-api.add_resource(AvatarUpload, "/upload/avatar")
-api.add_resource(Avatar, "/avatar/<int:user_id>")
+#  api.add_resource(ImageUpload, "/upload/image")
+#  api.add_resource(Image, "/image/<string:filename>")
+#  api.add_resource(AvatarUpload, "/upload/avatar")
+#  api.add_resource(Avatar, "/avatar/<int:user_id>")
+api.add_resource(Client, "/v1/client/<int:client_id>")
+api.add_resource(ClientList, "/v1/clients")
 
 
 if __name__ == "__main__":
