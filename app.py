@@ -11,6 +11,7 @@ from ma import ma
 from blacklist import BLACKLIST
 from resources.user import UserRegister, UserLogin, User, TokenRefresh, UserLogout
 from resources.client import Client, ClientList
+from resources.routine import Routine
 #  from resources.item import Item, ItemList
 #  from resources.store import Store, StoreList
 #  from resources.image import ImageUpload, Image, AvatarUpload, Avatar
@@ -61,6 +62,7 @@ api.add_resource(UserLogout, "/logout")
 #  api.add_resource(Avatar, "/avatar/<int:user_id>")
 api.add_resource(Client, "/v1/client/<int:client_id>")
 api.add_resource(ClientList, "/v1/clients")
+api.add_resource(Routine, "/v1/routine/<int:routine_id>")
 
 
 if __name__ == "__main__":

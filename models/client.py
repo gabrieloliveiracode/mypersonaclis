@@ -15,7 +15,7 @@ class ClientModel(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     user = db.relationship("UserModel")
 
-    items = db.relationship("RoutineModel", lazy="dynamic")
+    routines = db.relationship("RoutineModel", lazy="dynamic")
 
     @classmethod
     def find_by_email(cls, email: str) -> "UserModel":
