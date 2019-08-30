@@ -14,7 +14,8 @@ from models.user import UserModel
 from schemas.user import UserSchema
 from blacklist import BLACKLIST
 from libs.mailgun import MailGunException
-from libs.strings import gettext
+# from libs.strings import gettext
+from flask_babel import gettext, refresh
 
 user_schema = UserSchema()
 
@@ -83,12 +84,15 @@ class UserLogin(Resource):
         if user and safe_str_cmp(user.password, user_data.password):
             access_token = create_access_token(user.id, fresh=True)
             refresh_token = create_refresh_token(user.id)
+
+            refresh()
+
             return (
                 {"access_token": access_token, "refresh_token": refresh_token},
                 200,
             )
 
-        return {"message": gettext("user_invalid_credentials")}, 401
+        return {"message": gettext(u"user_invalid_credentials")}, 401
 
 
 class UserLogout(Resource):

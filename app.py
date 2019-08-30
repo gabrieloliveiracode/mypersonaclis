@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request
 from flask_restful import Api
-from flask_jwt_extended import JWTManager
+from flask_jwt_extended import JWTManager, get_jwt_identity
 from flask_uploads import configure_uploads, patch_request_class
 from marshmallow import ValidationError
 from dotenv import load_dotenv
@@ -15,7 +15,6 @@ from resources.client import Client, ClientList
 from resources.routine import Routine
 #  from resources.image import ImageUpload, Image, AvatarUpload, Avatar
 from libs.image_helper import IMAGE_SET
-# from libs.strings import refresh
 
 
 app = Flask(__name__)
@@ -27,18 +26,6 @@ configure_uploads(app, IMAGE_SET)
 api = Api(app)
 babel = Babel(app)
 
-# -*- coding: utf-8 -*-
-# ...
-# available languages
-LANGUAGES = {
-    'en': 'English',
-    'es': 'Español'
-}
-
-
-@babel.localeselector
-def get_locale():
-    return request.accept_languages.best_match(LANGUAGES.keys())
 
 @app.before_first_request
 def create_tables():

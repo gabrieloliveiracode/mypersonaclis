@@ -1,0 +1,116 @@
+# English translations for PROJECT.
+# Copyright (C) 2019 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2019.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2019-08-30 20:34+0200\n"
+"PO-Revision-Date: 2019-08-30 20:43+0200\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.7.0\n"
+
+#: resources/client.py:22 resources/client.py:49
+msgid "client_not_found"
+msgstr ""
+
+#: resources/client.py:31
+msgid "client_name_exists"
+msgstr ""
+
+#: resources/client.py:38
+msgid "client_error_inserting"
+msgstr ""
+
+#: resources/client.py:47
+msgid "client_deleted"
+msgstr ""
+
+#: resources/image.py:25
+msgid "image_uploaded"
+msgstr ""
+
+#: resources/image.py:28 resources/image.py:94
+msgid "image_illegal_extension"
+msgstr ""
+
+#: resources/image.py:43 resources/image.py:56
+msgid "image_illegal_file_name"
+msgstr ""
+
+#: resources/image.py:48 resources/image.py:62
+msgid "image_not_found"
+msgstr ""
+
+#: resources/image.py:60
+msgid "image_deleted"
+msgstr ""
+
+#: resources/image.py:65
+msgid "image_delete_failed"
+msgstr ""
+
+#: resources/image.py:82
+msgid "avatar_delete_failed"
+msgstr ""
+
+#: resources/image.py:91
+msgid "avatar_uploaded"
+msgstr ""
+
+#: resources/image.py:106
+msgid "avatar_not_found"
+msgstr ""
+
+#: resources/routine.py:22 resources/routine.py:48
+msgid "routine_not_found"
+msgstr ""
+
+#: resources/routine.py:37
+msgid "routine_error_inserting"
+msgstr ""
+
+#: resources/routine.py:46
+msgid "routine_deleted"
+msgstr ""
+
+#: resources/user.py:29
+msgid "user_username_exists"
+msgstr ""
+
+#: resources/user.py:32
+msgid "user_email_exists"
+msgstr ""
+
+#: resources/user.py:37
+msgid "user_registered"
+msgstr ""
+
+#: resources/user.py:44
+msgid "user_error_creating"
+msgstr ""
+
+#: resources/user.py:54 resources/user.py:62
+msgid "user_not_found"
+msgstr ""
+
+#: resources/user.py:65
+msgid "user_deleted"
+msgstr ""
+
+#: resources/user.py:92
+msgid "user_invalid_credentials"
+msgstr "user pau no cu"
+
+#: resources/user.py:102
+msgid "user_logged_out"
+msgstr ""
+
