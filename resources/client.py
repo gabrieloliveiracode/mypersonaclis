@@ -9,7 +9,7 @@ from schemas.client import ClientSchema
 from libs.strings import gettext
 
 client_schema = ClientSchema()
-store_list_schema = ClientSchema(many=True)
+client_list_schema = ClientSchema(many=True)
 
 
 class Client(Resource):
@@ -22,7 +22,7 @@ class Client(Resource):
         return {"message": gettext("client_not_found")}, 404
 
     @classmethod
-    def post(cls, client_id: int):
+    def post(cls):
 
         client_json = request.get_json()
         client = ClientModel.find_by_email(client_json["email"])
@@ -62,9 +62,6 @@ class Client(Resource):
         client.phone_number = client_json["phone_number"]
         client.user_id = client_json["user_id"]
 
-        if client.id is not None:
-            client = client_schema.load(client_json)
-
         client.save_to_db()
 
         return client_schema.dump(client), 200
@@ -73,4 +70,4 @@ class Client(Resource):
 class ClientList(Resource):
     @classmethod
     def get(cls):
-        return {"clients": store_list_schema.dump(ClientModel.find_all())}, 200
+        return {"clients": client_list_schema.dump(ClientModel.find_all())}, 200

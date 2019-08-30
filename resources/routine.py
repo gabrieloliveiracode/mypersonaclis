@@ -22,7 +22,7 @@ class Routine(Resource):
         return {"message": gettext("routine_not_found")}, 404
 
     @classmethod
-    def post(cls, routine_id: int):
+    def post(cls):
 
         routine_json = request.get_json()
 
