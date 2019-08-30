@@ -13,7 +13,7 @@ class UserModel(db.Model):
     age = db.Column(db.Integer, nullable=False)
     phone_number = db.Column(db.String(20), nullable=False, unique=False)
     cref = db.Column(db.String(20), nullable=False, unique=False)
-    locale = db.Column(db.String(5), nullable=False, unique=True)
+    locale = db.Column(db.String(5), nullable=True, unique=False)
 
     clients = db.relationship("ClientModel", lazy="dynamic")
 
