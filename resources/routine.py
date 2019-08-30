@@ -51,10 +51,6 @@ class Routine(Resource):
     def put(cls, routine_id: int):
         routine_json = request.get_json()
 
-        routine = routine_schema.load(routine_json, partial=(
-            "date",
-        ))
-
         routine = RoutineModel.find_by_id(routine_id)
 
         if routine is None:
