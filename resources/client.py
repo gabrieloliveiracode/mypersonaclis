@@ -6,7 +6,7 @@ from flask_jwt_extended import (
 
 from models.client import ClientModel
 from schemas.client import ClientSchema
-from libs.strings import gettext
+from flask_babel import gettext
 
 client_schema = ClientSchema()
 client_list_schema = ClientSchema(many=True)
@@ -28,7 +28,7 @@ class Client(Resource):
         client = ClientModel.find_by_email(client_json["email"])
 
         if client:
-            return {"message": gettext("client_name_exists").format(client.name)}, 400
+            return {"message": gettext("client_name_exists")}, 400
 
         client = client_schema.load(client_json)
 

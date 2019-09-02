@@ -24,7 +24,7 @@ msgstr ""
 
 #: resources/client.py:31
 msgid "client_name_exists"
-msgstr ""
+msgstr "Nome de Cliente já Existe!"
 
 #: resources/client.py:38
 msgid "client_error_inserting"
@@ -108,7 +108,7 @@ msgstr ""
 
 #: resources/user.py:92
 msgid "user_invalid_credentials"
-msgstr "User Pau No Cu"
+msgstr "User Pau No Cu BR"
 
 #: resources/user.py:102
 msgid "user_logged_out"

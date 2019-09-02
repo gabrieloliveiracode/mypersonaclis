@@ -24,7 +24,7 @@ msgstr ""
 
 #: resources/client.py:31
 msgid "client_name_exists"
-msgstr ""
+msgstr "Client name existsss"
 
 #: resources/client.py:38
 msgid "client_error_inserting"

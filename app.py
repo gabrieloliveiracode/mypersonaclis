@@ -1,11 +1,11 @@
-from flask import Flask, jsonify, request
-from flask_restful import Api
+from flask import Flask, jsonify, g
+from flask_restful import Api, request
 from flask_jwt_extended import JWTManager, get_jwt_identity
 from flask_uploads import configure_uploads, patch_request_class
 from marshmallow import ValidationError
 from dotenv import load_dotenv
 from flask_migrate import Migrate
-from flask_babel import Babel
+from flask_babel import Babel, refresh
 
 from db import db
 from ma import ma
@@ -13,6 +13,7 @@ from blacklist import BLACKLIST
 from resources.user import UserRegister, UserLogin, User, TokenRefresh, UserLogout
 from resources.client import Client, ClientList
 from resources.routine import Routine
+
 #  from resources.image import ImageUpload, Image, AvatarUpload, Avatar
 from libs.image_helper import IMAGE_SET
 
@@ -30,6 +31,20 @@ babel = Babel(app)
 @app.before_first_request
 def create_tables():
     db.create_all()
+
+
+@app.before_request
+def set_locale():
+    # define the user location
+    g.user_locale = babel.default_locale
+    user_language = request.headers.get('Accept-Language')
+    g.user_locale = user_language
+    refresh()
+
+
+@babel.localeselector
+def get_locale():
+    return g.user_locale
 
 
 @app.errorhandler(ValidationError)

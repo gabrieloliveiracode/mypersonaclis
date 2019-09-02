@@ -6,7 +6,7 @@ from flask_jwt_extended import (
 
 from models.routine import RoutineModel
 from schemas.routine import RoutineSchema
-from libs.strings import gettext
+from flask_babel import gettext
 
 routine_schema = RoutineSchema()
 store_list_schema = RoutineSchema(many=True)
