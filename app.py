@@ -16,7 +16,7 @@ from resources.routine import Routine
 
 #  from resources.image import ImageUpload, Image, AvatarUpload, Avatar
 from libs.image_helper import IMAGE_SET
-
+from libs.exception import ApiError
 
 app = Flask(__name__)
 load_dotenv(".env", verbose=True)
@@ -27,6 +27,9 @@ configure_uploads(app, IMAGE_SET)
 api = Api(app)
 babel = Babel(app)
 
+jwt = JWTManager(app)
+migrate = Migrate(app, db)
+
 
 @app.before_first_request
 def create_tables():
@@ -36,9 +39,14 @@ def create_tables():
 @app.before_request
 def set_locale():
     # define the user location
-    g.user_locale = babel.default_locale
-    user_language = request.headers.get('Accept-Language')
-    g.user_locale = user_language
+    user_locale = request.headers.get('Accept-Language')
+    print(user_locale)
+    # if there is no language set in the header
+    if user_locale is None:
+        g.user_locale = babel.default_locale
+    else:
+        g.user_locale = user_locale
+
     refresh()
 
 
@@ -52,8 +60,9 @@ def handle_marshmallow_validation(err):
     return jsonify(err.messages), 400
 
 
-jwt = JWTManager(app)
-migrate = Migrate(app, db)
+@app.errorhandler(ApiError)
+def handle_api_error(error):
+    return error.get_response()
 
 
 # This method will check if a token is blacklisted, and will be called automatically when blacklist is enabled
@@ -79,4 +88,4 @@ api.add_resource(Routine, "/v1/routine/<int:routine_id>", "/v1/routine")
 if __name__ == "__main__":
     db.init_app(app)
     ma.init_app(app)
-    app.run(port=5000)
+    app.run(debug=True, port=5000)

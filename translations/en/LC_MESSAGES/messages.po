@@ -108,7 +108,7 @@ msgstr ""
 
 #: resources/user.py:92
 msgid "user_invalid_credentials"
-msgstr "user pau no cu"
+msgstr "User Does Not Exists"
 
 #: resources/user.py:102
 msgid "user_logged_out"

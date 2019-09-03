@@ -9,13 +9,14 @@ from flask_jwt_extended import (
     jwt_required,
     get_raw_jwt,
 )
+from flask_babel import gettext
 import traceback
+from sqlalchemy.exc import SQLAlchemyError
 from models.user import UserModel
 from schemas.user import UserSchema
 from blacklist import BLACKLIST
 from libs.mailgun import MailGunException
-# from libs.strings import gettext
-from flask_babel import gettext, refresh
+from libs.exception import ApiError
 
 user_schema = UserSchema()
 
@@ -27,22 +28,23 @@ class UserRegister(Resource):
         user = user_schema.load(user_json)
 
         if UserModel.find_by_username(user.username):
-            return {"message": gettext("user_username_exists")}, 400
+            raise ApiError(gettext(u"user_username_exists"), status_code=400)
 
         if UserModel.find_by_email(user.email):
-            return {"message": gettext("user_email_exists")}, 400
+            raise ApiError(gettext(u"user_email_exists"), status_code=400)
 
         try:
             user.save_to_db()
-
             return {"message": gettext("user_registered")}, 201
         except MailGunException as e:
             user.delete_from_db()  # rollback
-            return {"message": str(e)}, 500
-        except:  # failed to save user to db
+            raise ApiError(str(e), status_code=500)
+        except SQLAlchemyError as e:  # failed to save user to db
+            error = str(e.__dict__['orig'])
+            print(error)
             traceback.print_exc()
             user.delete_from_db()  # rollback
-            return {"message": gettext("user_error_creating")}, 500
+            raise ApiError(gettext(u"user_error_creating"), status_code=500)
 
 
 class User(Resource):
@@ -51,11 +53,7 @@ class User(Resource):
     def get(cls, user_id: int):
         user = UserModel.find_by_id(user_id)
         if not user:
-            return {"message": gettext("user_not_found")}, 404
-
-        print("locale get")
-        print(g.user_locale)
-        print(gettext("client_name_exists"))
+            raise ApiError(gettext(u"user_not_found"), status_code=404)
 
         return user_schema.dump(user), 200
 
@@ -63,7 +61,7 @@ class User(Resource):
     def delete(cls, user_id: int):
         user = UserModel.find_by_id(user_id)
         if not user:
-            return {"message": gettext("user_not_found")}, 404
+            raise ApiError(gettext(u"user_not_found"), status_code=404)
 
         user.delete_from_db()
         return {"message": gettext("user_deleted")}, 200
@@ -93,7 +91,7 @@ class UserLogin(Resource):
                 200,
             )
 
-        return {"message": gettext(u"user_invalid_credentials")}, 401
+        raise ApiError(gettext(u"user_invalid_credentials"), status_code=401)
 
 
 class UserLogout(Resource):
